@@ -57,8 +57,56 @@ st.markdown("""
         color: #182230;
         font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
     }
-    
-    /* Sleek Dark Navy Sidebar */
+
+    /* ------------------------------------------------------------------ */
+    /* MAIN CONTENT AREA — ensure all text is always readable              */
+    /* ------------------------------------------------------------------ */
+
+    /* All labels (sliders, radio groups, selectboxes, inputs) */
+    .main .stSlider label,
+    .main .stSelectbox label,
+    .main .stNumberInput label,
+    .main .stTextInput label,
+    .main .stFileUploader label,
+    .main [data-testid="stRadio"] > label,
+    .main [data-testid="stFormSubmitButton"] p,
+    section[data-testid="stMain"] label,
+    section[data-testid="stMain"] .stRadio label p {
+        color: #182230 !important;
+        font-weight: 600 !important;
+    }
+
+    /* Radio option text inside the main area */
+    section[data-testid="stMain"] div[data-testid="stRadio"] label div[data-testid="stMarkdownContainer"] p,
+    section[data-testid="stMain"] div[data-testid="stRadio"] label p,
+    section[data-testid="stMain"] div[data-testid="stRadio"] span {
+        color: #182230 !important;
+        font-size: 0.9rem !important;
+    }
+
+    /* Keep the radio circle dot visible in main area */
+    section[data-testid="stMain"] div[data-testid="stRadio"] label > div:first-child {
+        display: flex !important;
+    }
+
+    /* General paragraph and caption text in main content */
+    section[data-testid="stMain"] p,
+    section[data-testid="stMain"] span,
+    section[data-testid="stMain"] li,
+    section[data-testid="stMain"] .stMarkdown p,
+    section[data-testid="stMain"] [data-testid="stMarkdownContainer"] p {
+        color: #182230 !important;
+    }
+
+    /* Caption text */
+    section[data-testid="stMain"] [data-testid="stCaptionContainer"] p,
+    section[data-testid="stMain"] small {
+        color: #667085 !important;
+    }
+
+    /* ------------------------------------------------------------------ */
+    /* DARK NAVY SIDEBAR — scoped strictly to sidebar only                 */
+    /* ------------------------------------------------------------------ */
     [data-testid="stSidebar"] {
         background-color: #101828 !important;
         border-right: 1px solid rgba(255, 255, 255, 0.08);
@@ -75,7 +123,7 @@ st.markdown("""
         font-size: 0.85rem !important;
     }
 
-    /* Sidebar Navigation Menu Styling */
+    /* Sidebar Navigation Menu — pill style */
     [data-testid="stSidebar"] div[data-testid="stRadio"] {
         margin-top: 4px;
         margin-bottom: 16px;
@@ -105,11 +153,11 @@ st.markdown("""
         color: #CBD5E1 !important;
         margin: 0 !important;
     }
-    /* Hide circular radio dot */
+    /* Hide circular radio dot — sidebar only */
     [data-testid="stSidebar"] div[data-testid="stRadio"] label > div:first-child {
         display: none !important;
     }
-    /* Active selected item */
+    /* Active selected nav item */
     [data-testid="stSidebar"] div[data-testid="stRadio"] label:has(input:checked) {
         background: #4F46E5 !important;
         border-color: rgba(255, 255, 255, 0.25) !important;
@@ -745,13 +793,13 @@ elif "Interactive Analytics" in selected_nav:
             hoverinfo="label+value+percent"
         )])
         fig_donut.update_layout(
-            height=360,
-            margin=dict(t=30, b=20, l=20, r=20),
+            height=380,
+            margin=dict(t=30, b=40, l=20, r=20),
             showlegend=True,
-            legend=dict(orientation="h", yanchor="bottom", y=-0.15, xanchor="center", x=0.5),
+            legend=dict(orientation="h", yanchor="bottom", y=-0.18, xanchor="center", x=0.5, font=dict(size=13, color="#182230")),
             paper_bgcolor="rgba(0,0,0,0)",
             plot_bgcolor="rgba(0,0,0,0)",
-            font=dict(family="Inter, sans-serif", color="#182230")
+            font=dict(family="Inter, -apple-system, sans-serif", size=13, color="#182230")
         )
         st.plotly_chart(fig_donut, use_container_width=True)
 
@@ -767,14 +815,14 @@ elif "Interactive Analytics" in selected_nav:
             labels={"label_str": "Transaction Class", "amount": "Amount ($ Log Scale)"}
         )
         fig_box.update_layout(
-            height=360,
+            height=380,
             margin=dict(t=30, b=20, l=20, r=20),
             showlegend=False,
             paper_bgcolor="rgba(0,0,0,0)",
             plot_bgcolor="rgba(0,0,0,0)",
-            font=dict(family="Inter, sans-serif", color="#182230"),
-            xaxis=dict(gridcolor="#E5EAF2"),
-            yaxis=dict(gridcolor="#E5EAF2")
+            font=dict(family="Inter, -apple-system, sans-serif", size=13, color="#182230"),
+            xaxis=dict(gridcolor="#E5EAF2", title_font=dict(size=13), tickfont=dict(size=12, color="#182230")),
+            yaxis=dict(gridcolor="#E5EAF2", title_font=dict(size=13), tickfont=dict(size=12, color="#182230"))
         )
         st.plotly_chart(fig_box, use_container_width=True)
 
@@ -802,14 +850,14 @@ elif "Interactive Analytics" in selected_nav:
         ))
         fig_cat.update_layout(
             barmode="group",
-            height=360,
-            margin=dict(t=30, b=20, l=20, r=20),
-            legend=dict(orientation="h", yanchor="bottom", y=-0.2, xanchor="center", x=0.5),
+            height=400,
+            margin=dict(t=30, b=60, l=20, r=20),
+            legend=dict(orientation="h", yanchor="bottom", y=-0.22, xanchor="center", x=0.5, font=dict(size=13, color="#182230")),
             paper_bgcolor="rgba(0,0,0,0)",
             plot_bgcolor="rgba(0,0,0,0)",
-            font=dict(family="Inter, sans-serif", color="#182230"),
-            xaxis=dict(gridcolor="#E5EAF2"),
-            yaxis=dict(gridcolor="#E5EAF2")
+            font=dict(family="Inter, -apple-system, sans-serif", size=13, color="#182230"),
+            xaxis=dict(gridcolor="#E5EAF2", tickfont=dict(size=12, color="#182230"), tickangle=-15),
+            yaxis=dict(gridcolor="#E5EAF2", tickfont=dict(size=12, color="#182230"), title_font=dict(size=13))
         )
         st.plotly_chart(fig_cat, use_container_width=True)
 
@@ -826,14 +874,14 @@ elif "Interactive Analytics" in selected_nav:
             labels={"hour": "Hour of Day (0–23)", "amount": "Amount ($)"}
         )
         fig_scatter.update_layout(
-            height=360,
-            margin=dict(t=30, b=20, l=20, r=20),
-            legend=dict(orientation="h", yanchor="bottom", y=-0.2, xanchor="center", x=0.5),
+            height=400,
+            margin=dict(t=30, b=60, l=20, r=20),
+            legend=dict(orientation="h", yanchor="bottom", y=-0.22, xanchor="center", x=0.5, font=dict(size=13, color="#182230")),
             paper_bgcolor="rgba(0,0,0,0)",
             plot_bgcolor="rgba(0,0,0,0)",
-            font=dict(family="Inter, sans-serif", color="#182230"),
-            xaxis=dict(gridcolor="#E5EAF2"),
-            yaxis=dict(gridcolor="#E5EAF2")
+            font=dict(family="Inter, -apple-system, sans-serif", size=13, color="#182230"),
+            xaxis=dict(gridcolor="#E5EAF2", title_font=dict(size=13), tickfont=dict(size=12, color="#182230")),
+            yaxis=dict(gridcolor="#E5EAF2", title_font=dict(size=13), tickfont=dict(size=12, color="#182230"))
         )
         st.plotly_chart(fig_scatter, use_container_width=True)
 
@@ -1234,14 +1282,15 @@ elif "Model Benchmarks" in selected_nav:
             labels={"value": "Score (0.0 to 1.0)", "variable": "Evaluation Metric", "model_name": "Anomaly Engine"}
         )
         fig_comp.update_layout(
-            height=400,
-            margin=dict(t=40, b=20, l=20, r=20),
+            height=430,
+            margin=dict(t=50, b=40, l=20, r=20),
             paper_bgcolor="rgba(0,0,0,0)",
             plot_bgcolor="rgba(0,0,0,0)",
-            font=dict(family="Inter, sans-serif", color="#182230"),
-            xaxis=dict(gridcolor="#E5EAF2"),
-            yaxis=dict(gridcolor="#E5EAF2", range=[0, 1.05]),
-            legend=dict(orientation="h", yanchor="bottom", y=-0.25, xanchor="center", x=0.5)
+            font=dict(family="Inter, -apple-system, sans-serif", size=13, color="#182230"),
+            title_font=dict(size=16, color="#182230"),
+            xaxis=dict(gridcolor="#E5EAF2", tickfont=dict(size=11, color="#182230"), title_font=dict(size=13, color="#182230")),
+            yaxis=dict(gridcolor="#E5EAF2", range=[0, 1.05], tickfont=dict(size=12, color="#182230"), title_font=dict(size=13, color="#182230")),
+            legend=dict(orientation="h", yanchor="bottom", y=-0.28, xanchor="center", x=0.5, font=dict(size=13, color="#182230"))
         )
         st.plotly_chart(fig_comp, use_container_width=True)
 
