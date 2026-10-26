@@ -74,12 +74,50 @@ st.markdown("""
         font-weight: 500 !important;
         font-size: 0.85rem !important;
     }
-    [data-testid="stSidebar"] [data-testid="stMetricValue"] {
-        color: #FFFFFF !important;
-        font-weight: 700 !important;
+
+    /* Sidebar Navigation Menu Styling */
+    [data-testid="stSidebar"] div[data-testid="stRadio"] {
+        margin-top: 4px;
+        margin-bottom: 16px;
     }
-    [data-testid="stSidebar"] [data-testid="stMetricLabel"] {
-        color: #94A3B8 !important;
+    [data-testid="stSidebar"] div[data-testid="stRadio"] > div {
+        gap: 6px;
+    }
+    [data-testid="stSidebar"] div[data-testid="stRadio"] label {
+        background: rgba(255, 255, 255, 0.03);
+        border: 1px solid rgba(255, 255, 255, 0.06);
+        padding: 10px 14px;
+        border-radius: 8px;
+        cursor: pointer;
+        transition: all 0.15s ease;
+        margin-bottom: 4px;
+        width: 100%;
+        display: flex;
+        align-items: center;
+    }
+    [data-testid="stSidebar"] div[data-testid="stRadio"] label:hover {
+        background: rgba(255, 255, 255, 0.08);
+        border-color: rgba(255, 255, 255, 0.15);
+    }
+    [data-testid="stSidebar"] div[data-testid="stRadio"] label div[data-testid="stMarkdownContainer"] p {
+        font-size: 0.90rem !important;
+        font-weight: 500 !important;
+        color: #CBD5E1 !important;
+        margin: 0 !important;
+    }
+    /* Hide circular radio dot */
+    [data-testid="stSidebar"] div[data-testid="stRadio"] label > div:first-child {
+        display: none !important;
+    }
+    /* Active selected item */
+    [data-testid="stSidebar"] div[data-testid="stRadio"] label:has(input:checked) {
+        background: #4F46E5 !important;
+        border-color: rgba(255, 255, 255, 0.25) !important;
+        box-shadow: 0 4px 12px rgba(79, 70, 229, 0.4) !important;
+    }
+    [data-testid="stSidebar"] div[data-testid="stRadio"] label:has(input:checked) div[data-testid="stMarkdownContainer"] p {
+        color: #FFFFFF !important;
+        font-weight: 600 !important;
     }
 
     /* Top Brand Header */
@@ -88,10 +126,10 @@ st.markdown("""
         background-image: radial-gradient(at 0% 0%, rgba(79, 70, 229, 0.28) 0, transparent 55%),
                           radial-gradient(at 100% 100%, rgba(6, 182, 212, 0.22) 0, transparent 55%);
         border-radius: 12px;
-        padding: 24px 30px;
+        padding: 22px 28px;
         border: 1px solid rgba(255, 255, 255, 0.1);
         box-shadow: 0 4px 20px -2px rgba(16, 24, 40, 0.12);
-        margin-bottom: 24px;
+        margin-bottom: 20px;
         color: #FFFFFF;
     }
     .fg-header-top {
@@ -155,7 +193,7 @@ st.markdown("""
     .fg-meta-row {
         display: flex;
         gap: 10px;
-        margin-top: 16px;
+        margin-top: 14px;
         flex-wrap: wrap;
     }
     .fg-meta-chip {
@@ -253,35 +291,6 @@ st.markdown("""
         letter-spacing: 0.02em;
     }
 
-    /* Modern Tabs */
-    div[data-baseweb="tab-list"] {
-        background: #FFFFFF;
-        border: 1px solid #E5EAF2;
-        border-radius: 10px;
-        padding: 4px;
-        gap: 4px;
-        margin-bottom: 24px;
-        box-shadow: 0 1px 2px rgba(16, 24, 40, 0.03);
-    }
-    div[data-baseweb="tab"] {
-        border-radius: 6px;
-        padding: 8px 18px;
-        font-weight: 600;
-        font-size: 0.88rem;
-        color: #667085;
-        border: none !important;
-        transition: all 0.15s ease;
-    }
-    div[data-baseweb="tab"]:hover {
-        color: #182230;
-        background-color: #F8FAFC;
-    }
-    div[data-baseweb="tab"][aria-selected="true"] {
-        background-color: #4F46E5 !important;
-        color: #FFFFFF !important;
-        box-shadow: 0 1px 3px rgba(79, 70, 229, 0.25);
-    }
-
     /* Buttons */
     div.stButton > button[kind="primary"] {
         background-color: #4F46E5;
@@ -332,6 +341,25 @@ st.markdown("""
         align-items: center;
         gap: 8px;
     }
+
+    /* Top Breadcrumb */
+    .fg-breadcrumb-bar {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        background: #FFFFFF;
+        border: 1px solid #E5EAF2;
+        border-radius: 8px;
+        padding: 10px 18px;
+        margin-bottom: 20px;
+        box-shadow: 0 1px 2px rgba(16, 24, 40, 0.03);
+    }
+    .fg-breadcrumb-left {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        font-size: 0.88rem;
+    }
 </style>
 """, unsafe_allow_html=True)
 
@@ -380,15 +408,25 @@ def load_available_models() -> Dict[str, ModelPipeline]:
 # ==============================================================================
 # SIDEBAR NAVIGATION & SYSTEM MONITORING
 # ==============================================================================
+NAV_ITEMS = [
+    "📊  Dataset & Quality",
+    "📈  Interactive Analytics",
+    "⚡  Real-Time Scoring",
+    "📑  Batch Triage & Export",
+    "🏆  Model Benchmarks",
+    "⚙️  Pipeline Calibration",
+    "🛡️  Governance & Audit Ledger",
+]
+
 with st.sidebar:
     st.markdown(
         """
-        <div style="display: flex; align-items: center; gap: 12px; padding: 12px 0 16px 0; border-bottom: 1px solid rgba(255,255,255,0.1);">
+        <div style="display: flex; align-items: center; gap: 12px; padding: 8px 0 16px 0; border-bottom: 1px solid rgba(255,255,255,0.1);">
             <div style="width: 38px; height: 38px; background: linear-gradient(135deg, #4F46E5, #06B6D4); border-radius: 8px; display: flex; align-items: center; justify-content: center; font-weight: 800; color: #FFFFFF; font-size: 18px;">
                 FG
             </div>
             <div>
-                <div style="font-size: 1.1rem; font-weight: 700; color: #FFFFFF; line-height: 1.1;">FraudGuard AI</div>
+                <div style="font-size: 1.15rem; font-weight: 700; color: #FFFFFF; line-height: 1.1;">FraudGuard AI</div>
                 <div style="font-size: 0.75rem; color: #94A3B8;">Intelligent Risk Monitoring</div>
             </div>
         </div>
@@ -396,15 +434,26 @@ with st.sidebar:
         unsafe_allow_html=True
     )
 
+    st.markdown("<div style='height: 12px;'></div>", unsafe_allow_html=True)
+    st.markdown("<div style='font-size: 0.72rem; font-weight: 700; text-transform: uppercase; color: #64748B; letter-spacing: 0.08em; margin-bottom: 8px;'>Platform Navigation</div>", unsafe_allow_html=True)
+
+    # Primary Sidebar Navigation Menu
+    selected_nav = st.radio(
+        "Platform Navigation",
+        options=NAV_ITEMS,
+        index=0,
+        label_visibility="collapsed"
+    )
+
     models_loaded = load_available_models()
     
-    st.markdown("<div style='height: 16px;'></div>", unsafe_allow_html=True)
+    st.markdown("<div style='height: 12px;'></div>", unsafe_allow_html=True)
     st.markdown(
         f"""
-        <div style="background: rgba(79, 70, 229, 0.12); border: 1px solid rgba(79, 70, 229, 0.3); border-radius: 8px; padding: 12px; margin-bottom: 16px;">
-            <div style="font-size: 0.75rem; text-transform: uppercase; font-weight: 700; color: #818CF8; letter-spacing: 0.05em;">System Operational State</div>
-            <div style="font-size: 0.95rem; font-weight: 600; color: #FFFFFF; margin-top: 4px;">{len(models_loaded)} Calibrated Engines</div>
-            <div style="font-size: 0.78rem; color: #CBD5E1; margin-top: 4px;">Zero Automated Declines • Human Triage</div>
+        <div style="background: rgba(79, 70, 229, 0.12); border: 1px solid rgba(79, 70, 229, 0.3); border-radius: 8px; padding: 12px; margin-bottom: 14px;">
+            <div style="font-size: 0.72rem; text-transform: uppercase; font-weight: 700; color: #818CF8; letter-spacing: 0.05em;">Engine Status</div>
+            <div style="font-size: 0.95rem; font-weight: 600; color: #FFFFFF; margin-top: 2px;">{len(models_loaded)} Calibrated Engines</div>
+            <div style="font-size: 0.75rem; color: #CBD5E1; margin-top: 3px;">Zero Automated Declines • Human Triage</div>
         </div>
         """,
         unsafe_allow_html=True
@@ -420,12 +469,12 @@ with st.sidebar:
         help="Expected prior proportion of anomalies in baseline traffic.",
     )
 
-    st.markdown("<div style='height: 12px;'></div>", unsafe_allow_html=True)
+    st.markdown("<div style='height: 10px;'></div>", unsafe_allow_html=True)
     st.markdown(
         """
-        <div style="background: rgba(255, 255, 255, 0.04); border: 1px solid rgba(255, 255, 255, 0.08); border-radius: 8px; padding: 14px;">
-            <div style="font-size: 0.8rem; font-weight: 600; color: #E2E8F0; margin-bottom: 6px;">Governance & Privacy</div>
-            <div style="font-size: 0.75rem; color: #94A3B8; line-height: 1.4;">
+        <div style="background: rgba(255, 255, 255, 0.04); border: 1px solid rgba(255, 255, 255, 0.08); border-radius: 8px; padding: 12px;">
+            <div style="font-size: 0.78rem; font-weight: 600; color: #E2E8F0; margin-bottom: 4px;">Governance & Privacy</div>
+            <div style="font-size: 0.73rem; color: #94A3B8; line-height: 1.4;">
                 • Tokenized Cards (CARD_XXXX####)<br>
                 • Zero PAN, CVV, or PII Storage<br>
                 • DPDP Act 2023 Compliant Audit Log<br>
@@ -436,12 +485,12 @@ with st.sidebar:
         unsafe_allow_html=True
     )
     
-    st.markdown("<div style='height: 12px;'></div>", unsafe_allow_html=True)
-    st.caption("FraudGuard AI Enterprise v2.4 • Production Ready")
+    st.markdown("<div style='height: 8px;'></div>", unsafe_allow_html=True)
+    st.caption("FraudGuard AI Enterprise v2.4")
 
 
 # ==============================================================================
-# TOP APPLICATION HEADER
+# TOP APPLICATION HEADER & BREADCRUMB
 # ==============================================================================
 st.markdown(
     """
@@ -456,7 +505,7 @@ st.markdown(
             </div>
             <div class="fg-status-pill">
                 <div class="fg-pulse-dot"></div>
-                <span>Calibrated Models Operational</span>
+                <span>5 Calibrated Engines Operational</span>
             </div>
         </div>
         <div class="fg-meta-row">
@@ -471,22 +520,31 @@ st.markdown(
     unsafe_allow_html=True
 )
 
-# Top Navigation Tabs
-tab_overview, tab_eda, tab_single, tab_batch, tab_eval, tab_train, tab_limitations = st.tabs([
-    "Dataset & Quality",
-    "Interactive Analytics",
-    "Real-Time Scoring",
-    "Batch Triage & Export",
-    "Model Benchmarks",
-    "Pipeline Calibration",
-    "Governance & Audit Ledger",
-])
+# Active Section Breadcrumb Bar
+clean_nav_name = selected_nav.split("  ")[-1]
+st.markdown(
+    f"""
+    <div class="fg-breadcrumb-bar">
+        <div class="fg-breadcrumb-left">
+            <span style="color: #667085;">FraudGuard AI</span>
+            <span style="color: #CBD5E1;">/</span>
+            <span style="color: #667085;">Console</span>
+            <span style="color: #CBD5E1;">/</span>
+            <strong style="color: #4F46E5;">{clean_nav_name}</strong>
+        </div>
+        <div style="font-size: 0.8rem; color: #667085;">
+            Active View: <span style="font-weight: 600; color: #182230;">{clean_nav_name}</span>
+        </div>
+    </div>
+    """,
+    unsafe_allow_html=True
+)
 
 
 # ==============================================================================
-# TAB 1: DATASET OVERVIEW & QUALITY
+# VIEW 1: DATASET OVERVIEW & QUALITY
 # ==============================================================================
-with tab_overview:
+if "Dataset & Quality" in selected_nav:
     st.markdown("### Transaction Schema & Data Health Audit")
     st.markdown("Ground-truth transaction repository (`dataset.csv`). Verified with zero missing values and zero synthetic corruption.")
 
@@ -663,9 +721,9 @@ with tab_overview:
 
 
 # ==============================================================================
-# TAB 2: EXPLORATORY VISUAL ANALYTICS
+# VIEW 2: EXPLORATORY VISUAL ANALYTICS
 # ==============================================================================
-with tab_eda:
+elif "Interactive Analytics" in selected_nav:
     st.markdown("### Exploratory Transaction Risk Intelligence")
     st.markdown("Visual analytics revealing the empirical relationships between transaction timing, amounts, and merchant categories.")
 
@@ -781,15 +839,15 @@ with tab_eda:
 
 
 # ==============================================================================
-# TAB 3: REAL-TIME SCORING & INVESTIGATOR TRIAGE CONSOLE
+# VIEW 3: REAL-TIME SCORING & INVESTIGATOR TRIAGE CONSOLE
 # ==============================================================================
-with tab_single:
+elif "Real-Time Scoring" in selected_nav:
     st.markdown("### Real-Time Transaction Scoring & Human Triage")
     st.markdown("Evaluate an individual transaction against calibrated anomaly models. Scores act as decision-support risk signals.")
 
     models_dict = load_available_models()
     if not models_dict:
-        st.warning("⚠️ No active models loaded. Please calibrate models in the 'Pipeline Calibration' tab.")
+        st.warning("⚠️ No active models loaded. Please calibrate models in Pipeline Calibration.")
     else:
         st.markdown("#### ⚡ 1-Click Test Scenario Presets")
         preset_cols = st.columns(3)
@@ -930,7 +988,6 @@ with tab_single:
                         unsafe_allow_html=True
                     )
 
-                # Visual Risk Gauge
                 gauge_color = "#DC2626" if result["flag"] == 1 else "#16A34A"
                 clamped_score = min(max(float(result["anomaly_score"]), 0.0), 1.0)
                 score_pct = clamped_score * 100.0
@@ -955,7 +1012,6 @@ with tab_single:
                     unsafe_allow_html=True
                 )
 
-                # Diagnostic Metrics
                 m_c1, m_c2, m_c3, m_c4 = st.columns(4)
                 with m_c1:
                     st.markdown(
@@ -1007,9 +1063,9 @@ with tab_single:
 
 
 # ==============================================================================
-# TAB 4: BATCH TRIAGE & COMPLIANCE EXPORT
+# VIEW 4: BATCH TRIAGE & COMPLIANCE EXPORT
 # ==============================================================================
-with tab_batch:
+elif "Batch Triage & Export" in selected_nav:
     st.markdown("### Batch Transaction Scoring & Compliance Export")
     st.markdown("Process enterprise batches simultaneously, filter flagged records into review queues, and generate audit-ready exports.")
 
@@ -1158,9 +1214,9 @@ with tab_batch:
 
 
 # ==============================================================================
-# TAB 5: MODEL BENCHMARKS & EVALUATION
+# VIEW 5: MODEL BENCHMARKS & EVALUATION
 # ==============================================================================
-with tab_eval:
+elif "Model Benchmarks" in selected_nav:
     st.markdown("### Empirical Model Evaluation & Comparative Benchmarks")
     st.markdown("Measured on a stratified held-out evaluation set ($N=100$: 99 legitimate, 1 fraud). All metrics computed strictly out-of-fold.")
 
@@ -1168,7 +1224,6 @@ with tab_eval:
     if metrics_file.exists():
         comp_df = pd.read_csv(metrics_file)
 
-        # Plotly comparative bar chart
         fig_comp = px.bar(
             comp_df,
             x="model_name",
@@ -1264,9 +1319,9 @@ with tab_eval:
 
 
 # ==============================================================================
-# TAB 6: PIPELINE CALIBRATION & TRAINING
+# VIEW 6: PIPELINE CALIBRATION & TRAINING
 # ==============================================================================
-with tab_train:
+elif "Pipeline Calibration" in selected_nav:
     st.markdown("### Pipeline Calibration & Model Retraining")
     st.markdown("Configure hyperparameters, adjust contamination assumptions, and calibrate all anomaly engines.")
 
@@ -1310,9 +1365,9 @@ with tab_train:
 
 
 # ==============================================================================
-# TAB 7: GOVERNANCE, AUDIT LEDGER & LIMITATIONS
+# VIEW 7: GOVERNANCE, AUDIT LEDGER & LIMITATIONS
 # ==============================================================================
-with tab_limitations:
+elif "Governance & Audit Ledger" in selected_nav:
     st.markdown("### Governance, Audit Ledger & Regulatory Compliance")
 
     st.markdown(
