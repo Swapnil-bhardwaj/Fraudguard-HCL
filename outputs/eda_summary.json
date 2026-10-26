@@ -1,0 +1,82 @@
+{
+  "input_file": "data\\dataset_cleaned.csv",
+  "rows": 500,
+  "columns": 8,
+  "column_names": [
+    "trans_id",
+    "timestamp",
+    "card_token",
+    "amount",
+    "merchant_category",
+    "is_fraud",
+    "merchant_id",
+    "card_type"
+  ],
+  "missing_values_by_column": {
+    "trans_id": 0,
+    "timestamp": 0,
+    "card_token": 0,
+    "amount": 0,
+    "merchant_category": 0,
+    "is_fraud": 0,
+    "merchant_id": 0,
+    "card_type": 0
+  },
+  "exact_duplicate_rows": 0,
+  "duplicate_trans_id_count": 0,
+  "fraud_label_counts": {
+    "0": 494,
+    "1": 6
+  },
+  "fraud_label_rate": 0.012,
+  "timestamp_min": "2024-01-01 00:17:00",
+  "timestamp_max": "2024-01-11 19:58:00",
+  "amount_summary": {
+    "min": 3.52,
+    "max": 4241.75,
+    "mean": 156.21926000000002,
+    "median": 92.09
+  },
+  "merchant_category_counts": {
+    "Electronics": {
+      "total": 74,
+      "fraud_labelled": 2
+    },
+    "Fuel": {
+      "total": 86,
+      "fraud_labelled": 1
+    },
+    "Grocery": {
+      "total": 61,
+      "fraud_labelled": 0
+    },
+    "Healthcare": {
+      "total": 68,
+      "fraud_labelled": 0
+    },
+    "Online": {
+      "total": 71,
+      "fraud_labelled": 2
+    },
+    "Restaurant": {
+      "total": 58,
+      "fraud_labelled": 1
+    },
+    "Travel": {
+      "total": 82,
+      "fraud_labelled": 0
+    }
+  },
+  "card_type_counts": {
+    "Prepaid": 173,
+    "Credit": 170,
+    "Debit": 157
+  },
+  "figures": [
+    "class_distribution.png",
+    "amount_by_label.png",
+    "merchant_category_counts.png",
+    "transactions_over_time.png"
+  ],
+  "interpretation_warning": "The file has only six fraud-labelled rows; per-category fraud rates and model metrics are unstable. No model has been trained by this EDA script. Currency is not specified."
+}

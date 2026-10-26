@@ -1,0 +1,184 @@
+{
+  "dataset_evaluated": "data\\dataset_cleaned.csv",
+  "total_records": 500,
+  "train_size": 375,
+  "train_legit": 370,
+  "train_fraud": 5,
+  "test_size": 125,
+  "test_legit": 124,
+  "test_fraud": 1,
+  "random_seed": 49,
+  "contamination": 0.035,
+  "models_evaluated": [
+    {
+      "model_name": "Isolation Forest",
+      "total_evaluated": 125,
+      "actual_fraud_count": 1,
+      "actual_legit_count": 124,
+      "threshold": 0.56309,
+      "true_positives": 0,
+      "false_positives": 4,
+      "true_negatives": 120,
+      "false_negatives": 1,
+      "frauds_missed": 1,
+      "legit_flagged": 4,
+      "precision": 0.0,
+      "recall": 0.0,
+      "f1_score": 0.0,
+      "accuracy": 0.96,
+      "false_positive_rate": 0.0323,
+      "pr_auc": 0.0098,
+      "pr_auc_note": null,
+      "roc_auc": 0.1855,
+      "roc_auc_note": null,
+      "latency_ms": 17.481,
+      "confusion_matrix": [
+        [
+          120,
+          4
+        ],
+        [
+          1,
+          0
+        ]
+      ],
+      "reliability_warning": "Caution: Test set contains only 1 fraud record(s). A single correct or missed prediction shifts recall between 0% and 100%. Metrics reflect an academic prototype demonstration, not production confidence."
+    },
+    {
+      "model_name": "Local Outlier Factor",
+      "total_evaluated": 125,
+      "actual_fraud_count": 1,
+      "actual_legit_count": 124,
+      "threshold": 1.11812,
+      "true_positives": 1,
+      "false_positives": 13,
+      "true_negatives": 111,
+      "false_negatives": 0,
+      "frauds_missed": 0,
+      "legit_flagged": 13,
+      "precision": 0.0714,
+      "recall": 1.0,
+      "f1_score": 0.1333,
+      "accuracy": 0.896,
+      "false_positive_rate": 0.1048,
+      "pr_auc": 0.0714,
+      "pr_auc_note": null,
+      "roc_auc": 0.8952,
+      "roc_auc_note": null,
+      "latency_ms": 2.127,
+      "confusion_matrix": [
+        [
+          111,
+          13
+        ],
+        [
+          0,
+          1
+        ]
+      ],
+      "reliability_warning": "Caution: Test set contains only 1 fraud record(s). A single correct or missed prediction shifts recall between 0% and 100%. Metrics reflect an academic prototype demonstration, not production confidence."
+    },
+    {
+      "model_name": "Autoencoder",
+      "total_evaluated": 125,
+      "actual_fraud_count": 1,
+      "actual_legit_count": 124,
+      "threshold": 0.09427,
+      "true_positives": 0,
+      "false_positives": 19,
+      "true_negatives": 105,
+      "false_negatives": 1,
+      "frauds_missed": 1,
+      "legit_flagged": 19,
+      "precision": 0.0,
+      "recall": 0.0,
+      "f1_score": 0.0,
+      "accuracy": 0.84,
+      "false_positive_rate": 0.1532,
+      "pr_auc": 0.0357,
+      "pr_auc_note": null,
+      "roc_auc": 0.7823,
+      "roc_auc_note": null,
+      "latency_ms": 0.536,
+      "confusion_matrix": [
+        [
+          105,
+          19
+        ],
+        [
+          1,
+          0
+        ]
+      ],
+      "reliability_warning": "Caution: Test set contains only 1 fraud record(s). A single correct or missed prediction shifts recall between 0% and 100%. Metrics reflect an academic prototype demonstration, not production confidence."
+    },
+    {
+      "model_name": "Logistic Regression (Supervised)",
+      "total_evaluated": 125,
+      "actual_fraud_count": 1,
+      "actual_legit_count": 124,
+      "threshold": 0.5,
+      "true_positives": 1,
+      "false_positives": 18,
+      "true_negatives": 106,
+      "false_negatives": 0,
+      "frauds_missed": 0,
+      "legit_flagged": 18,
+      "precision": 0.0526,
+      "recall": 1.0,
+      "f1_score": 0.1,
+      "accuracy": 0.856,
+      "false_positive_rate": 0.1452,
+      "pr_auc": 0.1667,
+      "pr_auc_note": null,
+      "roc_auc": 0.9597,
+      "roc_auc_note": null,
+      "latency_ms": 0.242,
+      "confusion_matrix": [
+        [
+          106,
+          18
+        ],
+        [
+          0,
+          1
+        ]
+      ],
+      "reliability_warning": "Caution: Test set contains only 1 fraud record(s). A single correct or missed prediction shifts recall between 0% and 100%. Metrics reflect an academic prototype demonstration, not production confidence."
+    },
+    {
+      "model_name": "Logistic Regression (SMOTE)",
+      "total_evaluated": 125,
+      "actual_fraud_count": 1,
+      "actual_legit_count": 124,
+      "threshold": 0.5,
+      "true_positives": 1,
+      "false_positives": 14,
+      "true_negatives": 110,
+      "false_negatives": 0,
+      "frauds_missed": 0,
+      "legit_flagged": 14,
+      "precision": 0.0667,
+      "recall": 1.0,
+      "f1_score": 0.125,
+      "accuracy": 0.888,
+      "false_positive_rate": 0.1129,
+      "pr_auc": 0.1429,
+      "pr_auc_note": null,
+      "roc_auc": 0.9516,
+      "roc_auc_note": null,
+      "latency_ms": 0.249,
+      "confusion_matrix": [
+        [
+          110,
+          14
+        ],
+        [
+          0,
+          1
+        ]
+      ],
+      "reliability_warning": "Caution: Test set contains only 1 fraud record(s). A single correct or missed prediction shifts recall between 0% and 100%. Metrics reflect an academic prototype demonstration, not production confidence."
+    }
+  ]
+}

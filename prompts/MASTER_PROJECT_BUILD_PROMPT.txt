@@ -1,0 +1,144 @@
+MASTER PROJECT BUILD PROMPT
+Project 32: Credit Card Fraud Detection Using Anomaly Detection
+HCLTech Career Shaper Programme | Digital-Data-AI / AIML | Advanced | 4 weeks | Individual project
+
+ROLE
+Act as a senior machine-learning engineer, Python application developer, data scientist, QA engineer, and academic-project mentor. Build a complete, runnable, well-documented academic prototype; do not return only a tutorial or pseudocode. Inspect the current repository and supplied files before writing code. Implement in small verifiable steps, run tests, fix errors, and document anything that cannot be executed in the current environment.
+
+PROJECT GOAL
+Build an end-to-end demonstration that analyses credit-card transaction records and flags unusual transactions for human review. Implement and compare Isolation Forest, Local Outlier Factor (LOF), and an Autoencoder where feasible. Address class imbalance carefully; include a supervised baseline with SMOTE or SMOTENC only where the labelled data supports it. The application must make clear that a fraud flag is a risk signal, not proof of fraud, and it must not automatically decline a transaction or make a real financial decision.
+
+SOURCE FILES — READ FIRST
+- `dataset.csv` — provided transaction dataset; this is the ground-truth input for the base run.
+- `data_dictionary.csv` — fill in field descriptions rather than leaving template text.
+- `Project_Brief.docx` — authoritative scope and required deliverables.
+- `Project_Synopsis_Template (1).docx` — use this format for the synopsis.
+- `Dataset_Generation_Prompt.txt` or its supplied screenshot — optional instructions for generating extra rows.
+
+CRITICAL DATASET FACTS AND CONSTRAINTS
+The supplied `dataset.csv` has exactly 500 records and these eight columns in this exact order:
+`trans_id, timestamp, card_token, amount, merchant_category, is_fraud, merchant_id, card_type`
+It currently has 494 labels of 0 and 6 labels of 1 (1.2% labelled fraud), no missing fields, and no exact duplicate rows. `trans_id` is sequential from 1 to 500. `timestamp` ranges from 2024-01-01 00:17:00 to 2024-01-11 19:58:00. Amounts range from 3.52 to 4241.75; currency is not specified. `card_token` is already masked in the form `CARD_XXXX####`.
+
+Do not falsely describe this supplied CSV as the public Kaggle ULB benchmark. The ULB/Kaggle data is a different schema (`Time`, `V1`–`V28`, `Amount`, `Class`) with 284,807 rows and 492 labelled fraud cases. The project brief's prose and the generation-prompt screenshot do not perfectly agree about the schema. Use the actual uploaded CSV as the default and explicitly document the discrepancy. Do not silently change column names or mix schemas. If a mentor requests the ULB data instead, implement it as a separate data adapter and document the source/terms.
+
+Do not fabricate model results. Run the implementation and report only values computed from the held-out evaluation set. Because the original dataset has only six fraud examples, state the severe evaluation limitation. If extra data are needed for a classroom demonstration, keep synthetic rows in `synthetic_transactions_only.csv` with a separate manifest, retain `dataset.csv` unchanged, and label every table/figure/result that uses synthetic data. Synthetic augmentation is optional until the mentor confirms it is accepted.
+
+TECHNICAL STACK
+- Python 3.10+ (prefer a currently supported version compatible with dependency versions).
+- pandas and NumPy for data handling.
+- scikit-learn for preprocessing, Isolation Forest, LOF, splits, metrics, and baselines.
+- TensorFlow/Keras for the Autoencoder, implemented as an optional component that can be disabled if dependencies/resources are unavailable.
+- imbalanced-learn for SMOTE/SMOTENC in a supervised comparison, only after data splitting and only on the training fold.
+- Streamlit for the UI. Add a small FastAPI REST layer only if it can be maintained cleanly; use documented endpoints such as `/health`, `/predict`, and `/predict-batch`. Do not add a Java/Spring backend merely to name-drop it; keep the prototype maintainable.
+- SQLite for minimal application run metadata or anonymized audit rows; never store full payment-card information, CVV, expiration date, name, or address. Avoid storing raw card tokens where they are not required.
+- Matplotlib/Plotly for visualisation; pytest for tests; joblib or Keras format for safe versioned model artefacts.
+
+REQUIRED PROJECT FEATURES
+1. Data upload / loading: load the supplied CSV by default and optionally allow the user to upload another CSV of the same schema.
+2. Validation: enforce required columns, parse timestamps, cast `amount` to a non-negative number, validate `is_fraud` is binary when labels are present, check duplicate transaction IDs, report missing values and invalid categories, and provide useful error messages.
+3. Data-quality overview: row/column counts, nulls, duplicates, class proportions, amount summary, timestamp range, category/card-type counts, and data-quality warnings.
+4. EDA dashboard and saved plots, at minimum:
+   - class distribution, showing counts and percentages;
+   - transaction amount distribution split by label, with sensible handling of skew/outliers;
+   - fraud count/rate by merchant category;
+   - transactions over time or fraud count over time.
+5. Feature engineering:
+   - derive hour, day of week, day/night indicator, and optionally cyclical hour features from `timestamp`;
+   - use log1p/RobustScaler or a justified scaler for skewed `amount`;
+   - encode `merchant_category` and `card_type` with preprocessing fitted on train data only;
+   - handle `merchant_id` with a documented approach (exclude, one-hot if low cardinality, or training-only frequency encoding);
+   - exclude `trans_id` as an identifier/predictor;
+   - do not use raw `card_token` as a direct model feature. If card-history/velocity features are attempted, create them using prior transactions only, sort chronologically, and prevent any future/label leakage. Explain this feature decision.
+   - never include `is_fraud` in feature matrix `X`; use it only as target for supervised learning and as an evaluation label.
+6. Models:
+   A. Isolation Forest: train using the features in a reproducible pipeline. Where appropriate fit on predominantly legitimate transactions only; record the contamination/threshold selection strategy. Keep score direction consistent in the model comparison.
+   B. Local Outlier Factor: for scoring unseen transactions, use `novelty=True`; train it only on its training data and use prediction/scoring methods only on held-out/new data. Never evaluate novelty scores on the same data used to fit it as if they were held-out results.
+   C. Autoencoder: train on legitimate training transactions only where feasible; use reconstruction error as the anomaly score, choose threshold using validation data (or a documented training-based threshold if validation labels are impossible), persist the threshold and architecture. Make TensorFlow optional with a clear UI warning if unavailable.
+   D. Supervised comparison: only if the label counts in training are sufficient. Use a simple, explainable baseline such as Logistic Regression or Random Forest with class weights; optionally compare to SMOTE/SMOTENC. Resampling must occur inside the training process/fold only, never before train/test split. With categorical variables, prefer a properly implemented SMOTENC/preprocessing pipeline; do not apply vanilla SMOTE to raw category strings. Dynamically set `k_neighbors <= minority_count - 1`; if fewer than two minority examples are available, skip resampling with a recorded warning instead of crashing.
+   E. The three anomaly detectors may not directly use class labels for training. Do not claim that SMOTE improves unsupervised anomaly algorithms. If SMOTE is mandated, use it only for the supervised benchmark and explain its scope.
+7. Splitting and validation:
+   - fix and log random seeds;
+   - report the number of fraud and legitimate examples in each split;
+   - because there are only six fraud records, choose a defensible stratified holdout or repeated stratified cross-validation for exploratory evaluation, explicitly note that each fold has very few positives, and do not overstate reliability;
+   - for a larger real dataset, include a chronological holdout as a more deployment-realistic alternative and discuss the choice;
+   - fit all preprocessing and oversampling only on training data;
+   - never tune thresholds on the final test set.
+8. Evaluation metrics: report fraud-class precision, recall, F1, Average Precision/PR-AUC, ROC-AUC only when it is mathematically available and meaningful, confusion matrix, false-positive rate, number of frauds missed, number of legitimate transactions flagged, and prediction latency. Provide model/threshold comparison. Do not present accuracy alone, because class imbalance can make it misleading. Do not round numbers in a way that changes interpretation; report counts alongside percentages.
+9. Risk levels: provide scores and thresholds, with an understandable label such as `Review recommended` or `Lower anomaly score`. Present anomaly scores as model-relative, not calibrated probability unless calibrated correctly. Add a human review step and warn that false positives can inconvenience customers.
+10. Streamlit application pages/tabs:
+   - Overview / Dataset Quality
+   - EDA Visualisations
+   - Model Training & Configuration
+   - Model Comparison / Evaluation
+   - Score a single transaction (user-entered data in the exact schema)
+   - Batch Score (upload CSV, download results CSV)
+   - Model/threshold details and limitations
+   The single/batch score results should include the transaction ID where present, anomaly score, model, threshold, flag, and a neutral reason/indicator. Do not claim causal explanations unless a valid explainability method is implemented.
+11. Persistence and security: save fitted preprocessing together with each model, use versioned model paths, avoid pickle/joblib loading of untrusted uploads, validate incoming files, do not log secrets or personal information, keep local config/secrets out of Git, and supply `.gitignore`.
+12. Testing: include unit tests for schema validation, timestamp parsing, feature leakage guard, preprocessing output, threshold conversion, missing columns, invalid labels, batch-scoring schema, and metrics edge cases (e.g. only one class in a test fold). Add a smoke test for the application/module imports.
+13. Documentation: README with setup/run steps for Windows and macOS/Linux, dependency installation, dataset format, training command, app command, screenshots placeholder, model explanation, data limitations, ethical considerations, and troubleshooting. Include a reproducible EDA script/notebook with at least three visualisations. Include a completed data dictionary. Include architecture diagram and DFD Level 0. Include a project report of at least eight pages, synopsis, results table, limitations, references, ethical declaration form, AI-use disclosure appendix, and a 1–2 minute demo script.
+
+RECOMMENDED REPOSITORY SHAPE
+fraud-detection-anomaly/
+  app.py
+  api/ (optional FastAPI application)
+  src/
+    data_validation.py
+    preprocessing.py
+    feature_engineering.py
+    train_models.py
+    scoring.py
+    evaluation.py
+    persistence.py
+    utils.py
+  tests/
+  data/
+    dataset.csv (original; do not edit)
+    dataset_cleaned.csv
+    data_dictionary.csv
+    synthetic_transactions_only.csv (optional; only if mentor approves)
+    synthetic_data_manifest.json (optional)
+  models/ (generated locally; normally not committed if large)
+  outputs/
+    figures/
+    metrics/
+    scored_transactions/
+  docs/
+    architecture.png
+    dfd_level_0.png
+    project_report.docx or .md
+    synopsis.docx
+    ethical_compliance.docx
+  requirements.txt
+  .gitignore
+  README.md
+
+IMPLEMENTATION STEPS — EXECUTE, DO NOT MERELY DESCRIBE
+Phase 1: Inspect files, report exact counts/types/labels, confirm schema and data dictionary; write cleaning and EDA scripts and save charts.
+Phase 2: Implement preprocessing/feature engineering, data splits, models and metric calculation with tests.
+Phase 3: Build Streamlit interface, train/load model artefacts, single and batch scoring, export results.
+Phase 4: Add documentation, architecture and DFD diagrams, tests, report/synopsis drafts, ethical form, demo walkthrough, reproducible run commands.
+
+QUALITY GATES
+- Run all automated tests and fix errors.
+- Run a complete end-to-end training/evaluation command on the available data.
+- Confirm no `is_fraud` feature leakage and no pre-split oversampling.
+- Ensure the app starts and all pages render for the available data.
+- Record actual package versions and actual model metrics.
+- If a metric cannot be calculated due to only one label in a split, report it as unavailable and explain why; do not fabricate a value.
+- Ensure all generated synthetic records are clearly separated and documented.
+- Make the final response include the exact files created, run commands, test results, model results, known limitations, and any missing tasks. Do not claim a file was tested unless it was actually run.
+
+ACADEMIC REPORTING STYLE
+Write clear, formal undergraduate project documentation. Define each algorithm in original wording and cite official documentation / original research. Distinguish provided facts, implementation choices, measured results, and limitations. References should include at least: the supplied project brief/template; scikit-learn Isolation Forest documentation; scikit-learn LOF documentation; TensorFlow Autoencoder tutorial; imbalanced-learn SMOTE/SMOTENC documentation; and, if discussed, the official DPDP Act 2023 publication. Mention that the Kaggle ULB dataset page refers to a different dataset unless it is actually used.
+
+ETHICS
+- A masked card token is still an identifier; minimize retention and exclude it from UI exports unless needed.
+- Do not ask for, generate, or store complete card numbers, CVV, names, addresses, or actual customer transaction records.
+- State the data source and license; do not mark a license compliant without checking the source terms.
+- Keep the compliance declaration unchecked until the learner has verified and signed it.
+- Disclose actual AI tools used for planning, code scaffolding, and writing; the learner must review, understand, test, and take responsibility for the final submission.
+- The model is a prototype. Do not present it as a production financial system or as fully compliant with law based only on this code.
+
+Now start by inspecting the files actually available in the repository. Then implement the full project and run the quality gates. Ask no questions that can be resolved by inspecting files; use clear placeholders only for personal fields that are truly missing (roll number, mentor name, and signature).

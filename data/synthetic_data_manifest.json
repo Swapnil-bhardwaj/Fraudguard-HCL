@@ -1,0 +1,35 @@
+{
+  "manifest_version": "1.0",
+  "description": "Synthetic demonstration transactions generated strictly per prompts/SYNTHETIC_DATA_GENERATION_PROMPT.txt.",
+  "generation_timestamp": "2026-10-26T16:53:53.987838+00:00",
+  "random_seed": 42,
+  "row_count": 4500,
+  "column_names": [
+    "trans_id",
+    "timestamp",
+    "card_token",
+    "amount",
+    "merchant_category",
+    "is_fraud",
+    "merchant_id",
+    "card_type"
+  ],
+  "trans_id_range": [
+    501,
+    5000
+  ],
+  "timestamp_range": [
+    "2024-01-12 00:17:58",
+    "2024-02-18 15:39:54"
+  ],
+  "fraud_count": 78,
+  "legitimate_count": 4422,
+  "fraud_rate": 0.0173,
+  "amount_stats": {
+    "min": 3.0,
+    "max": 5000.0,
+    "mean": 173.58,
+    "median": 66.27
+  },
+  "cautionary_note": "This dataset is artificial and strictly isolated from dataset.csv. Never use synthetic data for production validation or claim real-world efficacy from it."
+}

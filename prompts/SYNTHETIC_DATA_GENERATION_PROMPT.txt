@@ -1,0 +1,23 @@
+SYNTHETIC DATA GENERATION PROMPT — OPTIONAL, ONLY IF THE MENTOR APPROVES
+
+You are a data engineer creating clearly labelled SYNTHETIC demonstration data for an academic credit-card-fraud anomaly-detection project. Do not describe synthetic data as real bank transactions or as the Kaggle ULB dataset.
+
+INPUT SCHEMA (use these exact columns and order):
+trans_id, timestamp, card_token, amount, merchant_category, is_fraud, merchant_id, card_type
+
+ORIGINAL DATA CONTEXT:
+The supplied dataset.csv has 500 records, IDs 1–500, timestamps from 2024-01-01 00:17:00 through 2024-01-11 19:58:00, 8 columns, and 6 fraud labels. Generate 4,500 additional records only if requested, using trans_id 501–5000, so the optional combined dataset has 5,000 records.
+
+RULES:
+1. Do not rewrite, alter, regenerate, or duplicate any of the original 500 records. Output only the 4,500 new rows in `synthetic_transactions_only.csv`.
+2. Use timestamps after the last original timestamp and keep them parseable as `%Y-%m-%d %H:%M:%S`; make them plausibly chronological with variable gaps.
+3. Use masked identifiers such as `CARD_XXXX1234`; never create full payment-card numbers, CVVs, expiry dates, names, addresses, or other personal data.
+4. Keep amount numeric and non-negative, with two decimal places. Use category values drawn from the supplied set: Healthcare, Fuel, Travel, Grocery, Online, Electronics, Restaurant. Use card types Credit, Debit, Prepaid. Use merchant IDs such as MER0001–MER0500.
+5. Label `is_fraud` only according to explicit, documented simulated scenarios (e.g., a sudden high amount relative to the simulated card/merchant pattern, unusual late-night spending combined with unusual amount, or rapid sequential high-value attempts). Do not make fraud depend on one obvious single feature alone, or the model can exploit a shortcut.
+6. Aim for a stated fraud fraction in the new synthetic portion between 2% and 5% only if this is needed for a classroom simulation. This will not reproduce the original dataset's observed 1.2% fraud fraction or the Kaggle dataset's 0.172% rate. Print the exact generated label counts rather than claiming a target was achieved if it was not.
+7. Use realistic overlap: some high-value transactions must be legitimate and some fraud-labelled rows should have moderate amounts. Avoid perfect separation between classes.
+8. Save the exact same eight columns as the input schema. Also save a separate `synthetic_data_manifest.json` that states the generation date, generation method, random seed, record count, label counts, first/last transaction IDs, and that these rows are artificial/synthetic.
+9. Never write model evaluation performance or a claim of real-world validity into the dataset.
+10. Output a small validation summary: row count, duplicate count, missing-value count, timestamp range, min/max amount, category counts, card type counts, and fraud count/rate.
+
+Return valid CSV content as a file, not Markdown tables. If you cannot actually create a file in this environment, provide executable Python code that writes it. The synthetic dataset must remain separate from the original file.

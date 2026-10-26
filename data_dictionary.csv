@@ -1,0 +1,9 @@
+column_name,observed_data_type,sample_value_1,sample_value_2,sample_value_3,nullable_in_source,description
+trans_id,int64,1,2,3,No,Unique sequential transaction identifier. Use for record tracking only; exclude from predictive features.
+timestamp,datetime64[ns],2024-01-01 00:17:00,2024-01-01 00:44:00,2024-01-01 01:25:00,No,Date and time of the transaction in YYYY-MM-DD HH:MM:SS format. Can be used to derive hour/day/time features after leakage checks.
+card_token,string,CARD_XXXX7646,CARD_XXXX5910,CARD_XXXX1778,No,Masked card token that groups some transactions to the same simulated card. It is still an identifier; do not use raw token as a direct predictive feature or expose unnecessarily.
+amount,float64,147.93,78.39,172.03,No,Transaction amount represented as a numeric value with two decimal places. The source file does not specify the currency.
+merchant_category,category/string,Healthcare,Fuel,Healthcare,No,"Merchant industry/category of the transaction, e.g. Fuel, Online, Healthcare. Use categorical encoding fitted on training data only."
+is_fraud,int64 (binary target),0,0,0,No,"Label: 0 = legitimate transaction, 1 = transaction labelled fraudulent. This is the target for supervised comparisons and evaluation only; never include it in input features."
+merchant_id,string,MER0073,MER0023,MER0486,No,Identifier for the merchant. Potentially high-cardinality; exclude or encode using a training-only method and assess leakage risk.
+card_type,category/string,Debit,Prepaid,Prepaid,No,"Payment card type: Credit, Debit, or Prepaid. Encode using preprocessing fitted on training data only."
