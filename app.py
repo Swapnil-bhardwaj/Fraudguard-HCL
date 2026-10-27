@@ -168,89 +168,55 @@ st.markdown("""
         font-weight: 600 !important;
     }
 
-    /* Top Brand Header */
-    .fg-header-container {
-        background: #101828;
-        background-image: radial-gradient(at 0% 0%, rgba(79, 70, 229, 0.28) 0, transparent 55%),
-                          radial-gradient(at 100% 100%, rgba(6, 182, 212, 0.22) 0, transparent 55%);
+    /* Clean, Modern White Header */
+    .fg-simple-header {
+        background: #FFFFFF;
+        border: 1px solid #E5EAF2;
         border-radius: 12px;
-        padding: 22px 28px;
-        border: 1px solid rgba(255, 255, 255, 0.1);
-        box-shadow: 0 4px 20px -2px rgba(16, 24, 40, 0.12);
-        margin-bottom: 20px;
-        color: #FFFFFF;
-    }
-    .fg-header-top {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        flex-wrap: wrap;
-        gap: 16px;
-    }
-    .fg-brand-lockup {
-        display: flex;
-        align-items: center;
-        gap: 14px;
-    }
-    .fg-brand-icon {
-        width: 44px;
-        height: 44px;
-        background: linear-gradient(135deg, #4F46E5 0%, #06B6D4 100%);
-        border-radius: 10px;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        font-weight: 800;
-        font-size: 20px;
-        color: #FFFFFF;
-        box-shadow: 0 4px 12px rgba(79, 70, 229, 0.35);
+        padding: 18px 24px;
+        margin-bottom: 16px;
+        box-shadow: 0 1px 3px rgba(16, 24, 40, 0.04);
     }
     .fg-brand-title {
-        font-size: 1.65rem;
+        font-size: 1.45rem;
         font-weight: 700;
         letter-spacing: -0.02em;
-        color: #FFFFFF;
+        color: #182230;
         margin: 0;
         line-height: 1.2;
     }
     .fg-brand-tagline {
-        font-size: 0.92rem;
-        color: #94A3B8;
-        margin-top: 3px;
+        font-size: 0.88rem;
+        color: #667085;
+        margin-top: 2px;
         margin-bottom: 0;
     }
     .fg-status-pill {
         display: inline-flex;
         align-items: center;
         gap: 8px;
-        background: rgba(22, 163, 74, 0.15);
-        border: 1px solid rgba(22, 163, 74, 0.3);
-        color: #4ADE80;
-        padding: 6px 14px;
+        background: #ECFDF5;
+        border: 1px solid #A7F3D0;
+        color: #065F46;
+        padding: 5px 14px;
         border-radius: 9999px;
-        font-size: 0.8rem;
+        font-size: 0.82rem;
         font-weight: 600;
     }
     .fg-pulse-dot {
         width: 8px;
         height: 8px;
-        background-color: #22C55E;
+        background-color: #10B981;
         border-radius: 50%;
-        box-shadow: 0 0 0 2px rgba(34, 197, 94, 0.35);
-    }
-    .fg-meta-row {
-        display: flex;
-        gap: 10px;
-        margin-top: 14px;
-        flex-wrap: wrap;
+        box-shadow: 0 0 0 2px rgba(16, 185, 129, 0.3);
     }
     .fg-meta-chip {
-        background: rgba(255, 255, 255, 0.08);
-        border: 1px solid rgba(255, 255, 255, 0.12);
+        background: #F8FAFC;
+        border: 1px solid #E2E8F0;
         border-radius: 6px;
         padding: 4px 10px;
         font-size: 0.78rem;
-        color: #CBD5E1;
+        color: #475569;
         font-weight: 500;
     }
 
@@ -542,26 +508,26 @@ with st.sidebar:
 # ==============================================================================
 st.markdown(
     """
-    <div class="fg-header-container">
-        <div class="fg-header-top">
-            <div class="fg-brand-lockup">
-                <div class="fg-brand-icon">FG</div>
+    <div class="fg-simple-header">
+        <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 14px;">
+            <div style="display: flex; align-items: center; gap: 12px;">
+                <div style="width: 40px; height: 40px; background: #4F46E5; border-radius: 8px; display: flex; align-items: center; justify-content: center; color: #FFFFFF; font-weight: 800; font-size: 17px;">
+                    FG
+                </div>
                 <div>
-                    <h1 class="fg-brand-title">FraudGuard AI</h1>
+                    <h2 class="fg-brand-title">FraudGuard AI</h2>
                     <p class="fg-brand-tagline">Intelligent Transaction Risk Monitoring & Decision Support</p>
                 </div>
             </div>
-            <div class="fg-status-pill">
-                <div class="fg-pulse-dot"></div>
-                <span>5 Calibrated Engines Operational</span>
+            <div style="display: flex; align-items: center; gap: 8px; flex-wrap: wrap;">
+                <div class="fg-status-pill">
+                    <div class="fg-pulse-dot"></div>
+                    <span>5 Calibrated Engines Operational</span>
+                </div>
+                <span class="fg-meta-chip">500 Ground-Truth Records</span>
+                <span class="fg-meta-chip">Zero Auto-Declines</span>
+                <span class="fg-meta-chip">DPDP Act 2023 Compliant</span>
             </div>
-        </div>
-        <div class="fg-meta-row">
-            <span class="fg-meta-chip">Ground Truth: 500 Authoritative Records</span>
-            <span class="fg-meta-chip">Class Imbalance: 1.20% Dispute Rate</span>
-            <span class="fg-meta-chip">Sub-6ms Inference Latency</span>
-            <span class="fg-meta-chip">Zero Automated Declines</span>
-            <span class="fg-meta-chip">DPDP Act 2023 Compliant</span>
         </div>
     </div>
     """,
