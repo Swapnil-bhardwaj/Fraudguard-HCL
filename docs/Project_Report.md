@@ -3,10 +3,10 @@
 **Enterprise Financial Crime Intelligence | Digital-Data-AI / AIML | Advanced System Architecture**  
 **Academic Year:** 2025–26  
 **Lead Developer:** Swapnil Bhardwaj  
-**Roll Number:** [ENTER ROLL NUMBER]  
+**Roll Number:** 2400320101153  
 **College / Campus:** ABES Engineering College  
-**Mentor Name:** [ENTER MENTOR NAME]  
-**Submission Date:** [ENTER DATE]  
+**Live Web Application:** https://fraudguard-hcl.streamlit.app/  
+**GitHub Repository:** https://github.com/Swapnil-bhardwaj/Fraudguard-HCL.git  
 
 ---
 
